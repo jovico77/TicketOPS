@@ -4,48 +4,93 @@
 
 Aplicación web para la gestión de incidencias desarrollada como proyecto de aprendizaje de DevOPS y Cloud.
 
-El objetivo principal no es el desarrollo del CRUD, sino aplicar buenas prácticas de ingenieria de software, automatización, CI/CD e infraestructura.
+El objetivo principal del proyecto es construir una aplicación de gestión de incidencias aplicando prácticas profesionales de desarrollo, automatización, infraestructura y operaciones (DevOps), utilizando el CRUD como base funcional sobre la que evolucionará la plataforma.
 
 ---
 
 ## Tecnologías
 
-Backend:
-- Laravel
+Lenguaje
 
-Base de datos:
-- PostgreSQL
+PHP 8.4
 
-Servidor:
-- Nginx
+------------------
 
-Cache:
-- Redis
+Framework
 
-Contenedores:
-- Docker
-- Docker Compose
-- Kubernetes
+Laravel
 
-Cloud:
-- Azure
+------------------
 
-IaC:
-- Terraform
+Base de datos
 
-CI:
-- GitHub Actions
+PostgreSQL
 
-CD:
-- Jenkins
+------------------
 
-Observabilidad / Monitorización:
-- Prometheus
-- Grafana
-- Loki
+Servidor web
 
-Automatización:
-- Ansible
+Nginx
 
-IA:
-- OpenAI API
+------------------
+
+Cache
+
+Redis
+
+------------------
+
+Contenedores
+
+Docker
+Docker Compose
+
+------------------
+
+Cloud
+
+Azure
+
+------------------
+
+CI
+
+GitHub Actions
+
+------------------
+
+CD
+
+Jenkins
+
+------------------
+
+IaC
+
+Terraform
+
+------------------
+
+Orquestación
+
+Kubernetes
+
+------------------
+
+Observabilidad
+
+Prometheus
+Grafana
+Loki
+
+------------------
+
+Automatización
+
+Ansible
+
+------------------
+
+IA
+
+OpenAI API
