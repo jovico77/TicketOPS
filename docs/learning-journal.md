@@ -143,3 +143,16 @@
 - ¿Qué hace exactamente `mbstring`?
 - ¿Cómo funciona FastCGI internamente?
 - ¿Qué es un `healthcheck` en Docker Compose?
+
+# Sprint 3 - Primer arranque de la infraestructura
+
+## Conceptos aprendidos
+
+- Cómo construir imágenes con `docker compose up --build`.
+- Cómo comprobar el estado de los contenedores con `docker compose ps`.
+- Cómo revisar los logs de un servicio.
+- Cómo verificar que Docker ha creado redes y volúmenes.
+
+## Hito conseguido
+
+La infraestructura inicial de TicketOPS (Nginx, PHP-FPM y PostgreSQL) arranca correctamente mediante Docker Compose.
