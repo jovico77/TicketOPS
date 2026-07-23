@@ -156,3 +156,26 @@
 ## Hito conseguido
 
 La infraestructura inicial de TicketOPS (Nginx, PHP-FPM y PostgreSQL) arranca correctamente mediante Docker Compose.
+
+# Sprint 3 - Diseño de la base de datos
+
+## Conceptos aprendidos
+
+- Diferencia entre tablas maestras y tablas transaccionales.
+- Qué es una clave primaria.
+- Qué es una clave foránea.
+- Relaciones 1:N.
+- Uso de UUID como identificador.
+- Normalización básica.
+
+## Decisiones
+
+- UUID para users y tickets.
+- BIGINT autoincremental para tablas catálogo.
+- Soft Deletes en tickets.
+- Índices en los campos más consultados.
+
+## Herramientas utilizadas
+
+- dbdiagram.io
+- DBML
