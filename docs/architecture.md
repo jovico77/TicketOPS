@@ -8,6 +8,19 @@ El objetivo principal del proyecto es construir una aplicación de gestión de i
 
 ---
 
+## Arquitectura
+
+Cliente
+    │
+    ▼
+Nginx
+    │
+    ▼
+PHP-FPM (Laravel)
+    │
+    ▼
+PostgreSQL
+
 ## Tecnologías
 
 Lenguaje
@@ -94,3 +107,21 @@ Ansible
 IA
 
 OpenAI API
+
+## Estado actual
+
+- Docker ✅
+- Laravel ✅
+- PostgreSQL ✅
+- Nginx ✅
+- GitHub ✅
+
+Pendiente:
+
+- Redis
+- GitHub Actions
+- Jenkins
+- Terraform
+- Kubernetes
+- Monitorización
+- IA
