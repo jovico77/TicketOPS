@@ -1,0 +1,57 @@
+# Sprint 04 - Diseño de la base de datos
+
+## ¿Qué he aprendido?
+
+- Diseñar primero el dominio antes de implementar.
+- Diferenciar tablas catálogo y tablas transaccionales.
+- Aplicar relaciones correctamente.
+
+---
+
+## Conceptos importantes
+
+- UUID.
+- BIGINT.
+- Claves primarias.
+- Claves foráneas.
+- Relaciones 1:N.
+- Normalización.
+
+---
+
+## Decisiones tomadas
+
+- UUID para Users.
+- UUID para Tickets.
+- BIGINT para tablas catálogo.
+- Soft Deletes.
+- Índices.
+
+---
+
+## Herramientas utilizadas
+
+- DBDiagram.
+- DBML.
+
+---
+
+## Buenas prácticas
+
+- Diseñar antes de crear migraciones.
+- Pensar primero en el dominio.
+- Evitar duplicidad de datos.
+
+---
+
+## Preguntas de entrevista
+
+- ¿Cuándo utilizar UUID?
+- ¿Qué ventajas tiene la normalización?
+- ¿Qué diferencia hay entre una tabla catálogo y una transaccional?
+
+---
+
+## Hito conseguido
+
+Modelo de datos completamente diseñado.
