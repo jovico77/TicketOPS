@@ -9,34 +9,63 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tickets', function (Blueprint $table) {
-            
+
             $table->uuid('id')->primary();
 
-            // Título del ticket
-            $table->string('title', 200);
+            // Número visible del ticket
+            $table->string('ticket_number', 20)->unique();
 
-            // Descripción del problema
-            $table->text('description')->nullable();
+            // Información principal
+            $table->string('title', 255);
+            $table->text('description');
 
-            // Estado del ticket
-            $table->foreignId('status_id')->constrained('ticket_status')->restrictOnDelete();
+            // Usuario creador
+            $table->foreignUuid('created_by')
+                ->constrained('users')
+                ->restrictOnDelete();
 
-            // Prioridad del ticket
-            $table->foreignId('priority_id')->constrained('priorities')->restrictOnDelete();
+            // Técnico asignado
+            $table->foreignUuid('assigned_to')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
 
-            // Categoría del ticket
-            $table->foreignId('category_id')->constrained('categories')->restrictOnDelete();
+            // Estado
+            $table->foreignId('status_id')
+                ->constrained('ticket_status')
+                ->restrictOnDelete();
 
-            // Usuario que crea el ticket
-            $table->foreignUuid('created_by')->constrained('users')->restrictOnDelete();
+            // Prioridad
+            $table->foreignId('priority_id')
+                ->constrained()
+                ->restrictOnDelete();
 
-            // Usuario asignado
-            $table->foreignUuid('assigned_to')->nullable()->constrained('users')->nullOnDelete();
+            // Categoría
+            $table->foreignId('category_id')
+                ->constrained()
+                ->restrictOnDelete();
 
-            // Fecha de cierre
-            $table->timestamp('closed_at')->nullable()->index();
+            // Subcategoría
+            $table->foreignId('subcategory_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
+
+            // Resolución escrita por el técnico
+            $table->text('resolution')->nullable();
+
+            // Tipo de resolución
+            $table->foreignId('resolution_type_id')
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
+
+            // Fechas
+            $table->timestamp('resolved_at')->nullable();
+            $table->timestamp('closed_at')->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
