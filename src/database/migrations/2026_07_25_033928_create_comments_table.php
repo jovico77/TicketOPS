@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
+            $table->foreignUuId('ticket_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuId('user_id')->constrained()->restrictOnDelete();
+            $table->text('message');
+            $table->boolean('is_private')->default(false);
             $table->timestamps();
         });
     }
