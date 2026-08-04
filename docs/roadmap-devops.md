@@ -238,3 +238,12 @@ El foco principal del proyecto será la automatización, la infraestructura y el
 # Última actualización
 
 Se actualizará este documento al finalizar cada fase importante del proyecto.
+
+## V2 - ITIL Improvements
+
+- Impact field.
+- SLA management.
+- Escalation rules.
+- Automatic priority calculation (Priority + Impact).
+- Change Management.
+- Problem Management.

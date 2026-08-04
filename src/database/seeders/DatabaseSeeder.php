@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             TicketStatusSeeder::class,
             PrioritySeeder::class,
             CategorySeeder::class,
+            ResolutionTypeSeeder::class,
             UserSeeder::class,
         ]);
     }
