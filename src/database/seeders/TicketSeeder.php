@@ -21,30 +21,30 @@ class TicketSeeder extends Seeder
     public function run(): void
     {
         // Estados
-        $open = TicketStatus::where('name', 'Open')->first();
-        $assigned = TicketStatus::where('name', 'Assigned')->first();
-        $resolved = TicketStatus::where('name', 'Resolved')->first();
+        $open = TicketStatus::where('name', 'Open')->firstorFail();
+        $inProgress = TicketStatus::where('name', 'In Progress')->firstorFail();
+        $resolved = TicketStatus::where('name', 'Resolved')->firstorFail();
 
         // Prioridades
-        $high = Priority::where('name', 'High')->first();
-        $medium = Priority::where('name', 'Medium')->first();
-        $low = Priority::where('name', 'Low')->first();
+        $high = Priority::where('name', 'High')->firstorFail();
+        $medium = Priority::where('name', 'Medium')->firstorFail();
+        $low = Priority::where('name', 'Low')->firstorFail();
 
         // Categorías
-        $software = Category::where('name', 'Software')->first();
-        $network = Category::where('name', 'Network')->first();
-        $accounts = Category::where('name', 'Accounts')->firstOrFail();
+        $software = Category::where('name', 'Software')->firstorFail();
+        $network = Category::where('name', 'Network')->firstorFail();
+        $accounts = Category::where('name', 'Accounts')->firstorFail();
 
         // Subcategorías
-        $outlook = Subcategory::where('name', 'Outlook')->first();
-        $vpn = Subcategory::where('name', 'VPN')->first();
-        $passwordReset = Subcategory::where('name', 'Password Reset')->first();
+        $outlook = Subcategory::where('name', 'Outlook')->firstorFail();
+        $vpn = Subcategory::where('name', 'VPN')->firstorFail();
+        $passwordReset = Subcategory::where('name', 'Password Reset')->firstorFail();
 
         // Tipo de resolución
-        $manualExecution = ResolutionType::where('name', 'Manual Execution')->first();
+        $manualExecution = ResolutionType::where('name', 'Manual Execution')->firstorFail();
 
         // Usuario
-        $user = User::where('email', 'admin@ticketops.local')->first();
+        $user = User::where('email', 'admin@ticketops.local')->firstorFail();
 
         // Crear array de tickets
         $tickets = [
@@ -68,8 +68,8 @@ class TicketSeeder extends Seeder
                 'title' => 'VPN connection issues',
                 'description' => 'The user cannot connect to the VPN. It shows an authentication error.',
                 'created_by' => $user->id,
-                'assigned_to' => null,
-                'status_id' => $open->id,
+                'assigned_to' => $user->id,
+                'status_id' => $inProgress->id,
                 'priority_id' => $medium->id,
                 'category_id' => $network->id,
                 'subcategory_id' => $vpn->id,
@@ -83,14 +83,14 @@ class TicketSeeder extends Seeder
                 'title' => 'Password reset request',
                 'description' => 'The user forgot their password and needs a reset.',
                 'created_by' => $user->id,
-                'assigned_to' => null,
-                'status_id' => $open->id,
+                'assigned_to' => $user->id,
+                'status_id' => $resolved->id,
                 'priority_id' => $low->id,
                 'category_id' => $accounts->id,
                 'subcategory_id' => $passwordReset->id,
-                'resolution' => null,
-                'resolution_type_id' => null,
-                'resolved_at' => null,
+                'resolution' => 'Password reset completed. User can now log in with the new password.',
+                'resolution_type_id' => $manualExecution->id,
+                'resolved_at' => now(),
                 'closed_at' => null,
             ]
         ];
