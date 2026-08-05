@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -15,7 +16,7 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Joel Vicente',
             'email' => 'admin@ticketops.local',
-            'password' => 'admin1234',
+            'password' => Hash::make('admin1234'),
             'role_id' => $adminRole->id,
         ]);
     }
