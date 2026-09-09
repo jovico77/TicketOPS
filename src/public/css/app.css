@@ -160,6 +160,15 @@ tbody tr:last-child td {
     border-bottom: none;
 }
 
+.nt-3 {
+    margin: 10px 20px 0;
+}
+
+.page-item.active .page-link {
+    background-color: #0353a4;
+    border-color: #0353a4;
+}
+
 /* ---------- Status Styles ---------- */
 
 .status-open{
