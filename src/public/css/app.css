@@ -4,7 +4,11 @@
 ===================================== */
 
 body {
-    background-color: #ffffff;
+    background-image: url('/images/background-page.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 /* ---------- Navbar ---------- */
@@ -34,6 +38,84 @@ body {
     color: #fff;
 }
 
+.profile {
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* ---------- Alerts ---------- */
+
+.success-alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    margin-left: -140px;
+    z-index: 9999;
+
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 20px;
+
+    min-width: 280px;
+    padding: 14px 18px;
+
+    background-color: #89e97f;
+    color: #1b5923;
+
+    border: 2px solid #4b7244;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+
+    font-size: 14px;
+
+    animation: slideIn 0.3s ease-out;
+}
+
+.success-alert button {
+    border: none;
+    background: transparent;
+
+    color: #5f6368;
+    font-size: 20px;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+.success-alert button:hover {
+    color: #202124;
+}
+
+.success-alert.hide {
+    animation: fadeOut 0.3s ease-out forwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-15px);
+    }
+}
+
 /* ---------- Main Content ---------- */
 
 .content {
@@ -51,7 +133,7 @@ body {
 .table-container {
     width: 100%;
     max-width: 1300px;
-    margin: 2rem auto;
+    margin: 4rem auto;
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 8px 20px rgba(0,0,0,.08);
@@ -240,4 +322,34 @@ padding: 4px 8px;
 .priority-icon.priority-critical::before {
     content: "\f071"; /* fa-triangle-exclamation */
     color: #dc3545;
+}
+
+/* ---------- Create Page Styles ---------- */
+
+.ticket-form {
+    max-width: 600px;
+    margin: 4rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.08);
+}
+
+.create-ticket-header {
+    margin-bottom: 1.5rem;
+    padding-top: 0;
+}
+
+.create-ticket-btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.75rem;
+    margin-top: 2rem;
+    background: #0353a4;
+    font-size: 1.5rem;
+}
+
+.filter-group-div {
+    margin-top: 1rem;
 }

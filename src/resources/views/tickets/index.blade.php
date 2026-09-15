@@ -16,8 +16,15 @@
             <input type="text" name="search" class="form-control" placeholder="Search tickets..." value="{{ request('search') }}">
         </div>
 
+        @if (session('success'))
+        <div id="success-alert" class="success-alert">
+            <span>{{ session('success') }}</span>
+            <button onclick="closeAlert()" aria-label="Cerrar">×</button>
+        </div>
+        @endif
+
         <a href="{{ route('tickets.create') }}" class="btn-new">
-            + Nuevo Ticket
+            + New Ticket
         </a>
 
     </div>
@@ -25,7 +32,7 @@
     <div class="table-filter">
 
         <div class="filter-group">
-            <label for="status">Estado:</label>
+            <label for="status">Status:</label>
 
             <select name="status" id="status" class="form-select form-select-sm">
                 <option value="">All</option>
@@ -51,7 +58,7 @@
         </div>
 
         <div class="filter-group">
-            <label for="priority">Prioridad:</label>
+            <label for="priority">Priority:</label>
 
             <select name="priority" id="priority" class="form-select form-select-sm">
                 <option value="">All</option>
@@ -71,7 +78,7 @@
         </div>
 
         <div class="filter-group">
-            <label for="category">Categoría:</label>
+            <label for="category">Category:</label>
 
             <select name="category" id="category" class="form-select form-select-sm">
                 <option value="">All</option>
@@ -97,7 +104,7 @@
         </div>
 
         <button type="submit" class="btn-filter">
-            Filtrar
+            Filter
         </button>
 
     </div>

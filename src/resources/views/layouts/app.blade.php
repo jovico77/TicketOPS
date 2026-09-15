@@ -22,11 +22,13 @@
 <nav class="navbar">
 
     <div class="container-fluid">
-
-        <span class="navbar-brand">
-            TicketOPS
-        </span>
-
+        <a href="{{ route('tickets.index') }}" class="navbar-brand">TicketOPS</a>
+        <div class="d-flex align-items-center gap-3 profile"> <span>{{ auth()->user()->name }}</span>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit">Logout</button>
+            </form>
+        </div>
     </div>
 
 </nav>
@@ -36,6 +38,9 @@
     @yield('content')
 
 </div>
+
+<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ asset('js/alert.js') }}"></script>
 </body>
 
 </html>
