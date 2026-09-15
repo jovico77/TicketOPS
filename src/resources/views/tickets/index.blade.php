@@ -111,54 +111,60 @@
 
 </form>
 
-<table>
-    <thead>
-        <tr>
-            <th>Ticket</th>
-            <th>Title</th>
-            <th>Status</th>
-            <th>Priority</th>
-            <th>Category</th>
-            <th>Subcategory</th>
-            <th>Technician</th>
-            <th>Created By</th>
-        </tr>
-    </thead>
+<div class="table-scroll">
+    <table>
+        <thead>
+            <tr>
+                <th>Ticket</th>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Priority</th>
+                <th>Category</th>
+                <th>Subcategory</th>
+                <th>Technician</th>
+                <th>Created By</th>
+            </tr>
+        </thead>
 
-    <tbody>
+        <tbody>
 
-    @foreach($tickets as $ticket)
+        @foreach($tickets as $ticket)
 
-        <tr>
-            <td>{{ $ticket->ticket_number }}</td>
+            <tr draggable="true" class="sortable-row">
+                <td>
+                    <a href="{{ route('tickets.show', $ticket) }}" class="ticket-link">
+                        {{ $ticket->ticket_number }}
+                    </a>
+                </td>
 
-            <td>{{ $ticket->title }}</td>
+                <td>{{ $ticket->title }}</td>
 
-            <td>
-                <span class="status status-{{ Str::slug($ticket->status->name) }}">
-                    {{ $ticket->status->name }}
-                </span>
-            </td>
+                <td>
+                    <span class="status status-{{ Str::slug($ticket->status->name) }}">
+                        {{ $ticket->status->name }}
+                    </span>
+                </td>
 
-            <td>
-                <span>
-                    <i class="priority-icon priority-{{ Str::slug($ticket->priority->name) }}"></i>
-                </span>
-            </td>
+                <td>
+                    <span>
+                        <i class="priority-icon priority-{{ Str::slug($ticket->priority->name) }}"></i>
+                    </span>
+                </td>
 
-            <td>{{ $ticket->category->name }}</td>
+                <td>{{ $ticket->category->name }}</td>
 
-            <td>{{ $ticket->subcategory?->name ?? '-' }}</td>
+                <td>{{ $ticket->subcategory?->name ?? '-' }}</td>
 
-            <td>{{ $ticket->technician?->name ?? 'Unassigned' }}</td>
+                <td>{{ $ticket->technician?->name ?? 'Unassigned' }}</td>
 
-            <td>{{ $ticket->creator?->name ?? 'Unknown' }}</td>
-        </tr>
+                <td>{{ $ticket->creator?->name ?? 'Unknown' }}</td>
+            </tr>
 
-    @endforeach
+        @endforeach
 
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
     <div class="nt-3">
         {{ $tickets->links() }}
     </div>

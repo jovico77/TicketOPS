@@ -58,6 +58,22 @@ class TicketController extends Controller
         return view('tickets.create', compact('categories', 'priorities'));
     }
 
+    public function show(Ticket $ticket): View
+    {
+        $ticket->load([
+            'creator',
+            'technician',
+            'status',
+            'priority',
+            'category',
+            'subcategory',
+            'resolutionType',
+            'comments.user',
+        ]);
+
+        return view('tickets.show', compact('ticket'));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -79,7 +95,7 @@ class TicketController extends Controller
             $nextNumber = 1;
         }
 
-        $ticketNumber = 'TKT-' . now()->year . '-' . str_pad($nextNumber, 6, '0', STR_PAD_LEFT);
+        $ticketNumber = 'TCK-' . now()->year . '-' . str_pad($nextNumber, 6, '0', STR_PAD_LEFT);
 
         $ticket = Ticket::create([
             'ticket_number' => $ticketNumber,

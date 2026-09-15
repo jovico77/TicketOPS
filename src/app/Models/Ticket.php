@@ -35,6 +35,22 @@ class Ticket extends Model
     protected $keyType = 'string';
 
     /**
+     * Identificador público utilizado en las URLs de los tickets.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'ticket_number';
+    }
+
+    protected function casts(): array
+    {
+        return [
+            'resolved_at' => 'datetime',
+            'closed_at' => 'datetime',
+        ];
+    }
+
+    /**
      * Usuario que creó el ticket.
      */
     public function creator(): BelongsTo
