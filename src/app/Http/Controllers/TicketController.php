@@ -7,6 +7,7 @@ use App\Models\Ticket;
 use Illuminate\View\View;
 use App\Models\Category;
 use App\Models\Priority;
+use App\Models\Subcategory;
 use App\Models\TicketStatus;
 
 class TicketController extends Controller
@@ -71,7 +72,11 @@ class TicketController extends Controller
             'comments.user',
         ]);
 
-        return view('tickets.show', compact('ticket'));
+        $categories = Category::all();
+        $priorities = Priority::all();
+        $subcategories = Subcategory::where('category_id', $ticket->category_id)->get();
+
+        return view('tickets.show', compact('ticket', 'categories', 'priorities', 'subcategories'));
     }
 
     public function store(Request $request)
@@ -111,5 +116,22 @@ class TicketController extends Controller
             return redirect()
         ->route('tickets.index')
         ->with('success', 'Ticket created successfully.');
+    }
+
+    public function update(Request $request, Ticket $ticket)
+    {
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'required|string',
+                'priority_id' => 'required|exists:priorities,id',
+                'category_id' => 'required|exists:categories,id',
+                'subcategory_id' => 'nullable|exists:subcategories,id',
+            ]);
+
+            $ticket->update($validated);
+
+            return redirect()
+                ->route('tickets.show', $ticket)
+                ->with('success', 'Ticket updated successfully.');
     }
 }

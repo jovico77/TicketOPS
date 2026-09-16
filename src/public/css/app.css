@@ -442,7 +442,7 @@ padding: 4px 8px;
 }
 
 .btn-edit {
-    padding: 0.18rem 1.1rem;
+    padding: 0.50rem 1.1rem;
     margin-right: 1rem;
     border: 0;
     border-radius: 8px;
@@ -455,6 +455,100 @@ padding: 4px 8px;
 
 .btn-edit:hover {
     background: #023e7d;
+}
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(0, 0, 0, .5);
+}
+
+.modal-backdrop.is-visible {
+    display: flex;
+}
+
+.edit-ticket-modal {
+    width: min(100%, 600px);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, .2);
+}
+
+.modal-header,
+.modal-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #ececec;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: #0353a4;
+    font-size: 1.25rem;
+}
+
+.modal-close {
+    border: 0;
+    background: transparent;
+    color: #6c757d;
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.modal-body {
+    display: grid;
+    gap: 1rem;
+    padding: 1.5rem;
+}
+
+.edit-field {
+    display: grid;
+    gap: .4rem;
+}
+
+.edit-field label {
+    color: #343a40;
+    font-weight: 600;
+}
+
+.edit-field input,
+.edit-field textarea,
+.edit-field select {
+    width: 100%;
+    padding: .65rem .75rem;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font: inherit;
+}
+
+.edit-field textarea {
+    resize: vertical;
+}
+
+.modal-footer {
+    justify-content: flex-end;
+    border-top: 1px solid #ececec;
+    border-bottom: 0;
+}
+
+.modal-cancel {
+    padding: .50rem 1.1rem;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    background: #fff;
+    color: #343a40;
+    cursor: pointer;
 }
 
 .ticket-detail-grid {
