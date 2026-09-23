@@ -15,9 +15,31 @@
             </div>
             <h1>{{ $ticket->title }}</h1>
             <button type="button" class="btn-edit" data-modal-open="edit-ticket-modal">Edit</button>
-            <span class="status status-{{ Str::slug($ticket->status->name) }}">
-                {{ $ticket->status->name }}
-            </span>
+            <div class="status-selector">
+                <button
+                    type="button"
+                    class="status status-{{ Str::slug($ticket->status->name) }}"
+                    data-status-toggle="ticket-status-options"
+                    aria-expanded="false">
+                    {{ $ticket->status->name }}
+                    @if ($availableStatuses->isNotEmpty())
+                        <i class="fa-solid fa-chevron-down status-chevron"></i>
+                    @endif
+                </button>
+
+                @if ($availableStatuses->isNotEmpty())
+                    <div id="ticket-status-options" class="status-options" data-status-menu>
+                        @foreach ($availableStatuses as $status)
+                            <form method="POST" action="{{ route('tickets.status.update', $ticket) }}">
+                                @csrf
+                                @method('PATCH')
+                                <input type="hidden" name="status_id" value="{{ $status->id }}">
+                                <button type="submit">{{ $status->name }}</button>
+                            </form>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
         </div>
     </div>
 
@@ -114,6 +136,23 @@
                     <div class="edit-field">
                         <label for="edit-description">Description</label>
                         <textarea name="description" id="edit-description" rows="5" required>{{ old('description', $ticket->description) }}</textarea>
+                    </div>
+
+                    <div class="edit-field">
+                        <label for="edit-status">Status</label>
+                        <select name="status_id" id="edit-status" @disabled($ticket->status->name === 'Closed')>
+                            <option value="{{ $ticket->status_id }}" @selected(old('status_id', $ticket->status_id) == $ticket->status_id)>
+                                {{ $ticket->status->name }} (current)
+                            </option>
+                            @foreach ($availableStatuses as $status)
+                                <option value="{{ $status->id }}" @selected(old('status_id') == $status->id)>
+                                    {{ $status->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('status_id')
+                            <span class="form-error">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <div class="edit-field">

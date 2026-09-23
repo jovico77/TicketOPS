@@ -19,6 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/tickets', [TicketController::class, 'store'])->name('tickets.store');
     Route::get('/tickets/{ticket}', [TicketController::class, 'show'])->name('tickets.show');
     Route::patch('/tickets/{ticket}', [TicketController::class, 'update'])->name('tickets.update');
+    Route::patch('/tickets/{ticket}/status', [TicketController::class, 'updateStatus'])->name('tickets.status.update');
 });
 
 

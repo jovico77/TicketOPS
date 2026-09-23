@@ -441,6 +441,61 @@ padding: 4px 8px;
     margin-top: .85rem;
 }
 
+.status-selector {
+    position: relative;
+    display: inline-block;
+    margin-top: .85rem;
+}
+
+.status-selector .status {
+    margin: 0;
+    border: 0;
+    cursor: pointer;
+}
+
+.status-chevron {
+    margin-left: .35rem;
+    font-size: .7rem;
+}
+
+.status-options {
+    position: absolute;
+    top: calc(100% + .4rem);
+    left: 0;
+    z-index: 10;
+    display: none;
+    min-width: 150px;
+    padding: .35rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .18);
+}
+
+.status-options.is-visible {
+    display: grid;
+    gap: .2rem;
+}
+
+.status-options form {
+    margin: 0;
+}
+
+.status-options button {
+    width: 100%;
+    padding: .5rem .65rem;
+    border: 0;
+    border-radius: 5px;
+    background: transparent;
+    color: #343a40;
+    text-align: left;
+    cursor: pointer;
+}
+
+.status-options button:hover {
+    background: #f5f9ff;
+    color: #0353a4;
+}
+
 .btn-edit {
     padding: 0.50rem 1.1rem;
     margin-right: 1rem;
@@ -534,6 +589,11 @@ padding: 4px 8px;
 
 .edit-field textarea {
     resize: vertical;
+}
+
+.form-error {
+    color: #b91c1c;
+    font-size: .85rem;
 }
 
 .modal-footer {

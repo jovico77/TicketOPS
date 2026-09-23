@@ -142,6 +142,28 @@ document.querySelectorAll('[data-modal]').forEach(function (modal) {
     });
 });
 
+document.querySelectorAll('[data-status-toggle]').forEach(function (toggle) {
+    toggle.addEventListener('click', function () {
+        const menu = document.getElementById(this.dataset.statusToggle);
+
+        if (menu) {
+            const isVisible = menu.classList.toggle('is-visible');
+            this.setAttribute('aria-expanded', isVisible ? 'true' : 'false');
+        }
+    });
+});
+
+document.addEventListener('click', function (event) {
+    document.querySelectorAll('[data-status-menu].is-visible').forEach(function (menu) {
+        const selector = menu.closest('.status-selector');
+
+        if (selector && !selector.contains(event.target)) {
+            menu.classList.remove('is-visible');
+            selector.querySelector('[data-status-toggle]').setAttribute('aria-expanded', 'false');
+        }
+    });
+});
+
 if (document.querySelector('[data-modal] .is-invalid')) {
     document.querySelector('[data-modal]').classList.add('is-visible');
 }
