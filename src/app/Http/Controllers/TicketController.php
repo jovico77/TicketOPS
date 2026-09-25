@@ -17,7 +17,7 @@ class TicketController extends Controller
         'Open' => ['In Progress'],
         'In Progress' => ['Pending', 'Resolved'],
         'Pending' => ['In Progress'],
-        'Resolved' => ['Closed', 'Reopened'],
+        'Resolved' => ['Reopened'],
         'Reopened' => ['In Progress'],
         'Closed' => [],
     ];
