@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class LoginPageTest extends TestCase
@@ -79,5 +80,29 @@ class LoginPageTest extends TestCase
         $registeredUser = User::where('email', 'morgan@example.com')->firstOrFail();
 
         $this->assertSame('User', $registeredUser->role->name);
+    }
+
+    public function test_inactive_user_cannot_sign_in(): void
+    {
+        $userRole = Role::firstOrCreate(['name' => 'User']);
+        User::factory()->create([
+            'email' => 'inactive@example.com',
+            'password' => Hash::make('secure-password'),
+            'role_id' => $userRole->id,
+            'is_active' => false,
+        ]);
+
+        $response = $this->from(route('login'))->post(route('login'), [
+            'email' => 'inactive@example.com',
+            'password' => 'secure-password',
+        ]);
+        $response->assertStatus(302);
+        $this->assertSame(route('login'), $response->headers->get('Location'));
+        $this->assertSame(
+            'This account is inactive. Contact an administrator.',
+            $this->app['session.store']->get('errors')['default']['messages']['email'][0],
+        );
+
+        $this->assertGuest();
     }
 }

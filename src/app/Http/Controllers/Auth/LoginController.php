@@ -34,6 +34,7 @@ class LoginController extends Controller
             'email' => $validated['email'],
             'password' => $validated['password'],
             'role_id' => $userRole->id,
+            'is_active' => true,
         ]);
 
         Auth::login($user);
@@ -50,6 +51,16 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
+            if (! Auth::user()->is_active) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return back()->withErrors([
+                    'email' => 'This account is inactive. Contact an administrator.',
+                ])->onlyInput('email');
+            }
+
             $request->session()->regenerate();
             return redirect()->intended(route('tickets.index'));
         }

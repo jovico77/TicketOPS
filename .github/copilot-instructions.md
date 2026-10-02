@@ -322,6 +322,9 @@ Expected ticket permissions:
 * `Technician` can view and manage all tickets, but cannot delete or restore them.
 * `Administrator` has the same ticket views and management capabilities as `Technician`, and can soft-delete and restore tickets.
 * An additional ticket CRUD field is reserved for `Administrator` only. Its name and purpose have not yet been defined; clarify these before implementation.
+* Only `Administrator` can manage user accounts and assign roles.
+* Removing a user means deactivating the account, not deleting the database row. Preserve ticket and comment history, label inactive users as `Inactive`, block their login and end their existing session on its next authenticated request. Administrators can reactivate accounts.
+* Never allow the last active `Administrator` to be deactivated or demoted.
 
 Enforce authorization on the server, not only by hiding controls in Blade. Ticket ownership must be checked for users, including requests made directly by URL. Administrative deletion must use Laravel soft deletes; do not physically delete tickets unless explicitly requested.
 

@@ -112,6 +112,14 @@ El registro público siempre asigna el rol `User`; los usuarios no pueden elegir
 
 La autorización debe aplicarse en el servidor, no solo ocultando controles en las vistas. Las reglas de acceso a un ticket deben comprobar tanto el rol como la propiedad cuando corresponda. El borrado administrativo debe conservar el registro mediante soft delete; no se eliminará físicamente de la base de datos.
 
+## Gestión de usuarios
+
+Solo `Administrator` puede listar, crear y modificar usuarios, asignar roles o cambiar contraseñas desde la aplicación.
+
+La acción de eliminar un usuario es una desactivación lógica: se conserva el registro, su rol y las relaciones con tickets y comentarios, y se muestra la etiqueta `Inactive` junto a su nombre en la gestión de usuarios. Las cuentas inactivas no pueden iniciar sesión; una sesión abierta se cierra en su siguiente petición autenticada. Un administrador puede reactivar la cuenta.
+
+El último administrador activo no puede desactivarse ni cambiarse a otro rol, para evitar dejar el sistema sin una cuenta administrativa.
+
 ---
 
 # Estructura del ticket

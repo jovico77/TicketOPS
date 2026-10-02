@@ -23,7 +23,17 @@
 
     <div class="container-fluid">
         <a href="{{ route('tickets.index') }}" class="navbar-brand">TicketOPS</a>
-        <div class="d-flex align-items-center gap-3 profile"> <span>{{ auth()->user()->name }}</span>
+        <div class="d-flex align-items-center gap-3 profile">
+            @if (auth()->user()->role->name === 'Administrator')
+                <details class="admin-menu">
+                    <summary>Administration <i class="fa-solid fa-chevron-down" aria-hidden="true"></i></summary>
+                    <div class="admin-menu-items">
+                        <a href="{{ route('users.index') }}">Users</a>
+                        <a href="{{ route('tickets.trash') }}">Ticket trash</a>
+                    </div>
+                </details>
+            @endif
+            <span>{{ auth()->user()->name }}</span>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit">Logout</button>

@@ -19,6 +19,7 @@ use Illuminate\Notifications\Notifiable;
     'email',
     'password',
     'role_id',
+    'is_active',
 ])]
 #[Hidden([
     'password',
@@ -40,6 +41,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
     }
 
