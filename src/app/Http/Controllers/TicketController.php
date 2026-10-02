@@ -24,7 +24,13 @@ class TicketController extends Controller
 
     public function index(Request $request): View
     {
-        $tickets = Ticket::with([
+        $this->authorize('viewAny', Ticket::class);
+
+        $tickets = Ticket::query()
+        ->when($request->user()->role->name === 'User', function ($query) use ($request) {
+            $query->where('created_by', $request->user()->id);
+        })
+        ->with([
             'creator',
             'technician',
             'status',
@@ -61,8 +67,22 @@ class TicketController extends Controller
         return view('tickets.index', compact('tickets'));
     }
 
+    public function trash(): View
+    {
+        $this->authorize('viewTrash', Ticket::class);
+
+        $tickets = Ticket::onlyTrashed()
+            ->with(['creator', 'technician', 'status', 'priority', 'category'])
+            ->orderByDesc('deleted_at')
+            ->paginate(10);
+
+        return view('tickets.trash', compact('tickets'));
+    }
+
     public function create(): View
     {
+        $this->authorize('create', Ticket::class);
+
         $categories = Category::all();
         $priorities = Priority::all();
 
@@ -71,6 +91,8 @@ class TicketController extends Controller
 
     public function show(Ticket $ticket): View
     {
+        $this->authorize('view', $ticket);
+
         $ticket->load([
             'creator',
             'technician',
@@ -82,23 +104,30 @@ class TicketController extends Controller
             'comments.user',
         ]);
 
-        $categories = Category::all();
-        $priorities = Priority::all();
-        $subcategories = Subcategory::where('category_id', $ticket->category_id)->get();
-
-        $availableStatuses = $this->availableStatusesFor($ticket);
+        $canManage = request()->user()->can('update', $ticket);
+        $categories = $canManage ? Category::all() : collect();
+        $priorities = $canManage ? Priority::all() : collect();
+        $subcategories = $canManage
+            ? Subcategory::where('category_id', $ticket->category_id)->get()
+            : collect();
+        $availableStatuses = $canManage
+            ? $this->availableStatusesFor($ticket)
+            : collect();
 
         return view('tickets.show', compact(
             'ticket',
             'categories',
             'priorities',
             'subcategories',
-            'availableStatuses'
+            'availableStatuses',
+            'canManage'
         ));
     }
 
     public function store(Request $request)
     {
+        $this->authorize('create', Ticket::class);
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -138,6 +167,8 @@ class TicketController extends Controller
 
     public function update(Request $request, Ticket $ticket)
     {
+        $this->authorize('update', $ticket);
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -172,6 +203,8 @@ class TicketController extends Controller
 
     public function updateStatus(Request $request, Ticket $ticket)
     {
+        $this->authorize('updateStatus', $ticket);
+
         $validated = $request->validate([
             'status_id' => 'required|exists:ticket_status,id',
         ]);
@@ -193,6 +226,32 @@ class TicketController extends Controller
         return redirect()
             ->route('tickets.show', $ticket)
             ->with('success', 'Ticket status updated successfully.');
+    }
+
+    public function destroy(Ticket $ticket)
+    {
+        $this->authorize('delete', $ticket);
+
+        $ticket->delete();
+
+        return redirect()
+            ->route('tickets.index')
+            ->with('success', 'Ticket moved to the trash.');
+    }
+
+    public function restore(string $ticket)
+    {
+        $trashedTicket = Ticket::onlyTrashed()
+            ->where('ticket_number', $ticket)
+            ->firstOrFail();
+
+        $this->authorize('restore', $trashedTicket);
+
+        $trashedTicket->restore();
+
+        return redirect()
+            ->route('tickets.trash')
+            ->with('success', 'Ticket restored successfully.');
     }
 
     private function availableStatusesFor(Ticket $ticket)

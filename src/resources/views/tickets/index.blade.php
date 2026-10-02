@@ -10,7 +10,7 @@
 
     <div class="table-header">
 
-        <h2>Tickets</h2>
+        <h2>{{ auth()->user()->role->name === 'User' ? 'My tickets' : 'Tickets' }}</h2>
 
         <div class="table-input-search">
             <input type="text" name="search" class="form-control" placeholder="Search tickets..." value="{{ request('search') }}">
@@ -26,6 +26,11 @@
         <a href="{{ route('tickets.create') }}" class="btn-new">
             + New Ticket
         </a>
+        @if (auth()->user()->role->name === 'Administrator')
+            <a href="{{ route('tickets.trash') }}" class="btn-filter">
+                Trash
+            </a>
+        @endif
 
     </div>
 

@@ -14,32 +14,45 @@
                 <span class="ticket-number">{{ $ticket->ticket_number }}</span>
             </div>
             <h1>{{ $ticket->title }}</h1>
-            <button type="button" class="btn-edit" data-modal-open="edit-ticket-modal">Edit</button>
-            <div class="status-selector">
-                <button
-                    type="button"
-                    class="status status-{{ Str::slug($ticket->status->name) }}"
-                    data-status-toggle="ticket-status-options"
-                    aria-expanded="false">
-                    {{ $ticket->status->name }}
-                    @if ($availableStatuses->isNotEmpty())
-                        <i class="fa-solid fa-chevron-down status-chevron"></i>
-                    @endif
-                </button>
+            @if ($canManage)
+                <button type="button" class="btn-edit" data-modal-open="edit-ticket-modal">Edit</button>
+                @can('delete', $ticket)
+                    <form method="POST" action="{{ route('tickets.destroy', $ticket) }}" class="ticket-delete-form" onsubmit="return confirm('Move this ticket to trash?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn-delete">Move to trash</button>
+                    </form>
+                @endcan
+                <div class="status-selector">
+                    <button
+                        type="button"
+                        class="status status-{{ Str::slug($ticket->status->name) }}"
+                        data-status-toggle="ticket-status-options"
+                        aria-expanded="false">
+                        {{ $ticket->status->name }}
+                        @if ($availableStatuses->isNotEmpty())
+                            <i class="fa-solid fa-chevron-down status-chevron"></i>
+                        @endif
+                    </button>
 
-                @if ($availableStatuses->isNotEmpty())
-                    <div id="ticket-status-options" class="status-options" data-status-menu>
-                        @foreach ($availableStatuses as $status)
-                            <form method="POST" action="{{ route('tickets.status.update', $ticket) }}">
-                                @csrf
-                                @method('PATCH')
-                                <input type="hidden" name="status_id" value="{{ $status->id }}">
-                                <button type="submit">{{ $status->name }}</button>
-                            </form>
-                        @endforeach
-                    </div>
-                @endif
-            </div>
+                    @if ($availableStatuses->isNotEmpty())
+                        <div id="ticket-status-options" class="status-options" data-status-menu>
+                            @foreach ($availableStatuses as $status)
+                                <form method="POST" action="{{ route('tickets.status.update', $ticket) }}">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="status_id" value="{{ $status->id }}">
+                                    <button type="submit">{{ $status->name }}</button>
+                                </form>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+            @else
+                <span class="status status-{{ Str::slug($ticket->status->name) }}">
+                    {{ $ticket->status->name }}
+                </span>
+            @endif
         </div>
     </div>
 
@@ -116,6 +129,7 @@
         </aside>
     </div>
 
+    @if ($canManage)
     <div id="edit-ticket-modal" class="modal-backdrop {{ $errors->any() ? 'is-visible' : '' }}" data-modal>
         <div class="edit-ticket-modal" role="dialog" aria-modal="true" aria-labelledby="edit-ticket-title">
             <div class="modal-header">
@@ -197,6 +211,7 @@
             </form>
         </div>
     </div>
+    @endif
 </div>
 
 @endsection

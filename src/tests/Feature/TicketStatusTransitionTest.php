@@ -100,7 +100,7 @@ class TicketStatusTransitionTest extends TestCase
     private function createTicketWithStatus(string $statusName, array $attributes = []): array
     {
         $user = User::factory()->create([
-            'role_id' => Role::firstOrCreate(['name' => 'User'])->id,
+            'role_id' => Role::firstOrCreate(['name' => 'Technician'])->id,
         ]);
         $status = $this->createStatus($statusName, '#2fd9eb', 1);
 

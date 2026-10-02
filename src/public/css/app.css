@@ -1194,6 +1194,24 @@ padding: 4px 8px;
     background: #023e7d;
 }
 
+.ticket-delete-form {
+    display: inline-block;
+    margin-left: .5rem;
+}
+
+.btn-delete {
+    padding: .5rem .9rem;
+    border: 1px solid #b42318;
+    border-radius: 6px;
+    background: #fff;
+    color: #b42318;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+    background: #fff5f4;
+}
+
 .modal-backdrop {
     position: fixed;
     inset: 0;

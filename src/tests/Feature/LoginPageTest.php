@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\Role;
+use App\Models\User;
 use Tests\TestCase;
 
 class LoginPageTest extends TestCase
@@ -57,5 +59,25 @@ class LoginPageTest extends TestCase
             'name' => 'Taylor Example',
             'email' => 'taylor@example.com',
         ]);
+    }
+
+    public function test_registration_cannot_assign_a_privileged_role(): void
+    {
+        $administratorRole = Role::firstOrCreate(['name' => 'Administrator']);
+        Role::firstOrCreate(['name' => 'Technician']);
+
+        $response = $this->post(route('register.store'), [
+            'name' => 'Morgan Example',
+            'email' => 'morgan@example.com',
+            'password' => 'secure-password',
+            'password_confirmation' => 'secure-password',
+            'role_id' => $administratorRole->id,
+        ]);
+
+        $response->assertRedirect(route('tickets.index'));
+
+        $registeredUser = User::where('email', 'morgan@example.com')->firstOrFail();
+
+        $this->assertSame('User', $registeredUser->role->name);
     }
 }
