@@ -70,7 +70,7 @@
                 <p class="ticket-description">{{ $ticket->description }}</p>
             </div>
 
-            <div class="detail-card">
+            <div class="detail-card" id="comments">
                 <h2>Comments</h2>
 
                 @forelse ($ticket->comments as $comment)
@@ -155,7 +155,7 @@
     </div>
 
     @if ($canManage)
-    <div id="edit-ticket-modal" class="modal-backdrop {{ $errors->any() ? 'is-visible' : '' }}" data-modal>
+    <div id="edit-ticket-modal" class="modal-backdrop {{ $errors->hasAny(['title', 'description', 'status_id', 'priority_id', 'category_id', 'subcategory_id']) ? 'is-visible' : '' }}" data-modal>
         <div class="edit-ticket-modal" role="dialog" aria-modal="true" aria-labelledby="edit-ticket-title">
             <div class="modal-header">
                 <h2 id="edit-ticket-title">Edit ticket - {{ $ticket->ticket_number }}</h2>
