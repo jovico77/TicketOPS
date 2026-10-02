@@ -20,7 +20,13 @@ class TicketTrashTest extends TestCase
         $this->actingAs($administrator)
             ->get(route('tickets.show', $ticket))
             ->assertOk()
-            ->assertSee('Move to trash');
+            ->assertSee('aria-label="Move ticket to trash"', false);
+
+        $this->get(route('tickets.index'))
+            ->assertOk()
+            ->assertSee('<th>Actions</th>', false)
+            ->assertSee('aria-label="Move ticket to trash"', false)
+            ->assertSee('<svg viewBox="0 0 24 24"', false);
 
         $this->delete(route('tickets.destroy', $ticket))
             ->assertRedirect(route('tickets.index'));

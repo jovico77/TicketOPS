@@ -6,7 +6,7 @@
 
 <div class="ticket-detail">
     <div class="ticket-detail-header">
-        <div>
+        <div class="ticket-detail-header-content">
             <div class="ticket-detail-navigation">
                 <a href="{{ route('tickets.index') }}" class="back-link">
                     <i class="fa-solid fa-arrow-left"></i> Back to tickets
@@ -16,13 +16,6 @@
             <h1>{{ $ticket->title }}</h1>
             @if ($canManage)
                 <button type="button" class="btn-edit" data-modal-open="edit-ticket-modal">Edit</button>
-                @can('delete', $ticket)
-                    <form method="POST" action="{{ route('tickets.destroy', $ticket) }}" class="ticket-delete-form" onsubmit="return confirm('Move this ticket to trash?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn-delete">Move to trash</button>
-                    </form>
-                @endcan
                 <div class="status-selector">
                     <button
                         type="button"
@@ -54,6 +47,20 @@
                 </span>
             @endif
         </div>
+
+        @can('delete', $ticket)
+            <div class="ticket-detail-header-actions">
+                <form action="{{ route('tickets.destroy', $ticket) }}" method="POST" class="delete-form">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn-action btn-delete" title="Move ticket to trash" aria-label="Move ticket to trash" onclick="return confirm('Move this ticket to trash?')">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <path fill="currentColor" d="M6 7h12l-1 14H7L6 7Zm3-4h6l1 2h4v2H4V5h4l1-2Zm1 6v9h2V9h-2Zm4 0v9h2V9h-2Z"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        @endcan
     </div>
 
     <div class="ticket-detail-grid">

@@ -128,6 +128,7 @@
                 <th>Subcategory</th>
                 <th>Technician</th>
                 <th>Created By</th>
+                <th>Actions</th>
             </tr>
         </thead>
 
@@ -163,6 +164,21 @@
                 <td>{{ $ticket->technician?->name ?? 'Unassigned' }}</td>
 
                 <td>{{ $ticket->creator?->name ?? 'Unknown' }}</td>
+
+                <td>
+                @if (auth()->user()->role->name === 'Administrator')
+                    <form action="{{ route('tickets.destroy', $ticket) }}" method="POST" class="delete-form">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn-action btn-delete" title="Move ticket to trash" aria-label="Move ticket to trash" onclick="return confirm('Move this ticket to trash?')">
+                            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                <path fill="currentColor" d="M9 3h6l1 2h5v2H3V5h5l1-2Zm-3 6h12l-1 12H7L6 9Zm3 2v8h2v-8H9Zm4 0v8h2v-8h-2Z"/>
+                            </svg>
+                        </button>
+                    </form>
+                @endif
+
+                </td>
             </tr>
 
         @endforeach

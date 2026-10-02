@@ -1090,6 +1090,16 @@ padding: 4px 8px;
     margin-bottom: 1.5rem;
 }
 
+.ticket-detail-header-content {
+    min-width: 0;
+}
+
+.ticket-detail-header-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: auto;
+}
+
 .ticket-detail-navigation {
     display: flex;
     align-items: center;
@@ -1194,22 +1204,40 @@ padding: 4px 8px;
     background: #023e7d;
 }
 
-.ticket-delete-form {
-    display: inline-block;
-    margin-left: .5rem;
+.delete-form {
+    display: inline-flex;
+    margin: 0;
 }
 
-.btn-delete {
-    padding: .5rem .9rem;
-    border: 1px solid #b42318;
-    border-radius: 6px;
-    background: #fff;
-    color: #b42318;
+.delete-form .btn-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: 0;
+    border-radius: 7px;
+    background-color: #dc2626;
+    color: #fff;
     cursor: pointer;
+    transition: background-color .15s ease, transform .15s ease;
 }
 
-.btn-delete:hover {
-    background: #fff5f4;
+.delete-form .btn-delete:hover {
+    transform: translateY(-1px);
+    background-color: #b91c1c;
+}
+
+.delete-form .btn-delete:focus-visible {
+    outline: 3px solid rgba(220, 38, 38, .3);
+    outline-offset: 2px;
+}
+
+.delete-form .btn-delete svg {
+    display: block;
+    width: 18px;
+    height: 18px;
 }
 
 .modal-backdrop {
@@ -1416,6 +1444,11 @@ padding: 4px 8px;
     .ticket-detail-header,
     .comment-header {
         flex-direction: column;
+    }
+
+    .ticket-detail-header-actions {
+        align-self: flex-end;
+        margin-left: 0;
     }
 
     .ticket-detail-navigation {
