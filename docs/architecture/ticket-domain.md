@@ -79,29 +79,38 @@ El ticket vuelve al flujo de trabajo.
 
 # Roles
 
-Actualmente existen tres roles.
+La aplicación utilizará tres roles:
 
 - User
 - Technician
-- Admin
+- Administrator
 
-## Permisos
+Estos son los nombres canónicos que deben almacenarse en `roles.name`. El valor `Admin` no debe utilizarse como alias. Al implementar la autorización, se actualizarán el seeder y cualquier dato existente para usar `Administrator` antes de depender de la comprobación del rol.
 
-### Crear tickets
+El registro público siempre asigna el rol `User`; los usuarios no pueden elegir ni elevar su propio rol durante el registro.
 
-- User
-- Technician
-- Admin
+## Vistas y permisos
 
-### Cambiar prioridad
+### User
 
-- Technician
-- Admin
+- Puede crear tickets.
+- Puede consultar únicamente los tickets que ha solicitado.
+- No puede consultar ni modificar tickets de otros usuarios, aunque conozca su URL.
 
-### Resolver tickets
+### Technician
 
-- Technician
-- Admin
+- Puede consultar y gestionar todos los tickets.
+- Puede actualizar la información del ticket y gestionar su flujo de trabajo.
+- No puede enviar tickets a la papelera ni restaurarlos.
+
+### Administrator
+
+- Tiene las mismas vistas y capacidades de gestión que Technician.
+- Puede enviar tickets a la papelera y restaurar tickets eliminados mediante soft delete.
+- Puede ver un campo adicional del CRUD de tickets que no será visible para User ni Technician.
+- El nombre y el propósito de ese campo quedan pendientes de definición antes de implementarlo.
+
+La autorización debe aplicarse en el servidor, no solo ocultando controles en las vistas. Las reglas de acceso a un ticket deben comprobar tanto el rol como la propiedad cuando corresponda. El borrado administrativo debe conservar el registro mediante soft delete; no se eliminará físicamente de la base de datos.
 
 ---
 

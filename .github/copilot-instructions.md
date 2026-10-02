@@ -121,7 +121,6 @@ Current Docker Compose services:
 
 Architecture:
 
-```text
 Browser
    |
    v
@@ -135,7 +134,6 @@ Laravel
    |
    v
 PostgreSQL :5432
-```
 
 ## Nginx
 
@@ -310,15 +308,22 @@ The `users` table contains:
 
 The `User` model uses Laravel's hashed password cast.
 
-Roles are intended to support different Helpdesk permissions such as:
+The application uses these role names:
 
 * User
 * Technician
-* Admin
+* Administrator
 
-Role-based authorization should be introduced incrementally.
+These are the canonical values stored in `roles.name`; do not use `Admin` as an alias. Before enforcing role checks, update seeders and any existing role data to use `Administrator`. Public registration must always assign `User`; never accept a role from the registration request.
 
-Do not assume that every authenticated user is an administrator.
+Expected ticket permissions:
+
+* `User` can create tickets and view only tickets they created.
+* `Technician` can view and manage all tickets, but cannot delete or restore them.
+* `Administrator` has the same ticket views and management capabilities as `Technician`, and can soft-delete and restore tickets.
+* An additional ticket CRUD field is reserved for `Administrator` only. Its name and purpose have not yet been defined; clarify these before implementation.
+
+Enforce authorization on the server, not only by hiding controls in Blade. Ticket ownership must be checked for users, including requests made directly by URL. Administrative deletion must use Laravel soft deletes; do not physically delete tickets unless explicitly requested.
 
 ---
 
