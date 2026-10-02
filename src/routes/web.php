@@ -26,6 +26,8 @@ Route::middleware('auth')->group(function () {
 // Rutas de Login
 Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
+Route::get('/register', [LoginController::class, 'showRegistration'])->name('register');
+Route::post('/register', [LoginController::class, 'register'])->name('register.store');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
     // Ruta para obtener las subcategorías de una categoría específica (AJAX)
