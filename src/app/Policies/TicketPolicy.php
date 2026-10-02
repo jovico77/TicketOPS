@@ -35,6 +35,11 @@ class TicketPolicy
         return $this->update($user, $ticket);
     }
 
+    public function comment(User $user, Ticket $ticket): bool
+    {
+        return $this->view($user, $ticket);
+    }
+
     public function delete(User $user, Ticket $ticket): bool
     {
         return $user->role?->name === 'Administrator';

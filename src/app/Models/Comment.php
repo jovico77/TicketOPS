@@ -14,6 +14,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 ])]
 class Comment extends Model
 {
+    protected function casts(): array
+    {
+        return [
+            'is_private' => 'boolean',
+        ];
+    }
+
     /**
      * Ticket al que pertenece el comentario.
      */

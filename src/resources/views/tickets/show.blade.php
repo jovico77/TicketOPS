@@ -86,6 +86,24 @@
                 @empty
                     <p class="empty-state">No comments have been added yet.</p>
                 @endforelse
+
+                <form method="POST" action="{{ route('tickets.comments.store', $ticket) }}" class="comment-form">
+                    @csrf
+                    <label for="comment-message">Add a comment</label>
+                    <textarea
+                        id="comment-message"
+                        name="message"
+                        rows="4"
+                        maxlength="10000"
+                        required
+                        aria-describedby="comment-help"
+                    >{{ old('message') }}</textarea>
+                    <p id="comment-help" class="comment-help">Comments are visible to the ticket requester and support team.</p>
+                    @error('message')
+                        <span class="form-error">{{ $message }}</span>
+                    @enderror
+                    <button type="submit" class="btn-edit">Post comment</button>
+                </form>
             </div>
         </section>
 

@@ -101,7 +101,12 @@ class TicketController extends Controller
             'category',
             'subcategory',
             'resolutionType',
-            'comments.user',
+        ]);
+        $ticket->load([
+            'comments' => fn ($query) => $query
+                ->where('is_private', false)
+                ->with('user')
+                ->orderBy('created_at'),
         ]);
 
         $canManage = request()->user()->can('update', $ticket);
@@ -226,6 +231,26 @@ class TicketController extends Controller
         return redirect()
             ->route('tickets.show', $ticket)
             ->with('success', 'Ticket status updated successfully.');
+    }
+
+    public function storeComment(Request $request, Ticket $ticket)
+    {
+        $this->authorize('comment', $ticket);
+
+        $validated = $request->validate([
+            'message' => 'required|string|max:10000',
+        ]);
+
+        $ticket->comments()->create([
+            'user_id' => $request->user()->id,
+            'message' => $validated['message'],
+            'is_private' => false,
+        ]);
+
+        return redirect()
+            ->route('tickets.show', $ticket)
+            ->with('success', 'Comment added successfully.')
+            ->withFragment('comments');
     }
 
     public function destroy(Ticket $ticket)
