@@ -11,13 +11,13 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        $adminRole = Role::where('name', 'Admin')->firstOrFail();
+        $administratorRole = Role::where('name', 'Administrator')->firstOrFail();
 
         User::create([
             'name' => 'Joel Vicente',
             'email' => 'admin@ticketops.local',
             'password' => Hash::make('admin1234'),
-            'role_id' => $adminRole->id,
+            'role_id' => $administratorRole->id,
         ]);
     }
 }
