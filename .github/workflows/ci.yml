@@ -18,6 +18,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Validate Docker Compose configuration
+        run: docker compose config --quiet
+
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:

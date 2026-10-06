@@ -26,12 +26,6 @@
         <a href="{{ route('tickets.create') }}" class="btn-new">
             + New Ticket
         </a>
-        @if (auth()->user()->role->name === 'Administrator')
-            <a href="{{ route('tickets.trash') }}" class="btn-filter">
-                Trash
-            </a>
-        @endif
-
     </div>
 
     <div class="table-filter">
