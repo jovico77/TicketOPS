@@ -1,43 +1,76 @@
 name: TicketOPS CI
 
+# Run the pipeline when main changes or when a pull request targets main.
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
 
+# This workflow only needs to read the repository contents.
 permissions:
   contents: read
 
 jobs:
   quality:
-    name: Laravel tests and Docker build
+    name: Laravel tests (PostgreSQL) and Docker build
+    # GitHub-hosted Linux runner with Docker available.
     runs-on: ubuntu-latest
 
+    # Start a clean PostgreSQL database for this job only.
+    services:
+      postgres:
+        image: postgres:17.5
+        env:
+          POSTGRES_DB: ticketops_test
+          POSTGRES_USER: ticketops
+          POSTGRES_PASSWORD: ticketops
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ticketops -d ticketops_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
+      # Download the repository files onto the runner.
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Check that the Compose file parses; this does not start containers.
       - name: Validate Docker Compose configuration
         run: docker compose config --quiet
 
+      # Install PHP and the PostgreSQL driver used by the test database.
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: "8.4"
-          extensions: pdo_sqlite, sqlite3
+          extensions: pdo_pgsql
           coverage: none
 
+      # Install the exact PHP dependency versions recorded in composer.lock.
       - name: Install Composer dependencies
         working-directory: src
         run: composer install --no-interaction --prefer-dist --no-progress
 
+      # Laravel requires an application key; this temporary key is only for CI.
       - name: Generate temporary application key
         run: echo "APP_KEY=base64:$(php -r 'echo base64_encode(random_bytes(32));')" >> "$GITHUB_ENV"
 
-      - name: Run Laravel tests
+      # Execute the test suite against the temporary PostgreSQL service.
+      - name: Run Laravel tests against PostgreSQL
         working-directory: src
+        env:
+          DB_CONNECTION: pgsql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 5432
+          DB_DATABASE: ticketops_test
+          DB_USERNAME: ticketops
+          DB_PASSWORD: ticketops
         run: php artisan test
 
+      # Ensure the PHP application image can be built from its Dockerfile.
       - name: Build PHP Docker image
         run: docker build --tag ticketops-php:ci ./docker/php
