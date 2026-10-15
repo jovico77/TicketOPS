@@ -69,7 +69,7 @@ jobs:
           DB_DATABASE: ticketops_test
           DB_USERNAME: ticketops
           DB_PASSWORD: ticketops
-        run: php artisan test
+        run: php artisan test --display-warnings
 
       # Ensure the PHP application image can be built from its Dockerfile.
       - name: Build PHP Docker image
